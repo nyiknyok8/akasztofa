@@ -5,10 +5,17 @@ var buttons = document.getElementsByName("letter_input");
 
 var choosen_word = word_picker(words);
 
+var blank_word = document.getElementById("blank_text");
+
+blank_word.innerHTML = blank_word_init(choosen_word);
 
 
 function on_letter_push(value_of_button) {
     letter_button_status_setter(choosen_word, value_of_button, buttons);
+
+    if (is_correct(choosen_word, value_of_button.toLowerCase())) {
+        blank_word.innerHTML = blank_word_change(blank_word, choosen_word, value_of_button);
+    }
 
 }
 
@@ -17,23 +24,25 @@ function letter_button_status_setter(choosen_word, value_of_button, buttons) {
     
     let button = 0;
     while (buttons[button].value != value_of_button){
-        i++;
+        button++;
     }
 
-    if (is_correct(choosen_word, value_of_button)) {
-        buttons[button].style.backgroundColor = "green";
+    if (is_correct(choosen_word, value_of_button.toLowerCase())) {
+        buttons[button].style.background = "green";
     } else {
-        buttons[button].style.backgroundColor = "red";
+        buttons[button].style.background = "red";
     }
 
     buttons[button].disabled = true;
+    
 }
 
 // a "Feladom" gomb akciója
 function ending_game(buttons) {
     for (let index = 0; index < buttons.length; index++) {
-        buttons[i].disabled = true;
+        buttons[index].disabled = true;
         
+
     }
     
 }
@@ -41,7 +50,7 @@ function ending_game(buttons) {
 // az "Új játék" gomb akciója
 function starting_new_game(buttons) {
     for (let index = 0; index < buttons.length; index++) {
-        buttons[i].disabled = false;
+        buttons[index].disabled = false;
     }
 }
 
@@ -50,7 +59,7 @@ function word_picker(words) {
     
     let random_word = Math.random() * words.length;
 
-    return random_word;
+    return words[parseInt(random_word)];
 }
 
 // megnézi, hogy az adott betű szerepel-e a szóban
@@ -59,7 +68,7 @@ function is_correct(word, letter) {
 }
 
 
-function word_blank_init(choosen_word){
+function blank_word_init(choosen_word){
     let blank_word = "";
 
     for (let index = 0; index < choosen_word.length; index++) {
@@ -68,4 +77,29 @@ function word_blank_init(choosen_word){
     }
 
     return blank_word;
+}
+
+function blank_word_change(blank_word, choosen_word, letter) {
+    
+    let blank_word_serv = blank_word;
+
+    let letter_positions = [];
+    
+    for (let index = 0; index < choosen_word.length; index++) {
+        if (choosen_word[index] == letter.toLowerCase()){
+            letter_positions += i;
+        }
+        
+    }
+    
+
+    let i = 0;
+
+    while (i < letter_positions.length) {
+        blank_word_serv[i*2] = letter;
+        i++;
+    }
+
+    return blank_word_serv;
+
 }
