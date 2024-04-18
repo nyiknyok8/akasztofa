@@ -1,7 +1,7 @@
 // Csapó Benedek
 
 var words = ["alma", "banán", "citrom", "dinnye", "körte"];
-var buttons = document.getElementsByName("letter_button");
+var buttons = document.getElementsByName("letter_input");
 
 var choosen_word = word_picker(words);
 
