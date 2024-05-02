@@ -3,17 +3,18 @@
 var words = ["alma", "banán", "citrom", "dinnye", "körte"];
 var buttons = document.getElementsByName("letter_input");
 
-var choosen_word = word_picker(words);
+var choosen_word = word_picker(words).toUpperCase();
 
 var blank_word = document.getElementById("blank_text");
 
 blank_word.innerHTML = blank_word_init(choosen_word);
 
 
+
 function on_letter_push(value_of_button) {
     letter_button_status_setter(choosen_word, value_of_button, buttons);
 
-    if (is_correct(choosen_word, value_of_button.toLowerCase())) {
+    if (is_correct(choosen_word, value_of_button)) {
         blank_word.innerHTML = blank_word_change(blank_word, choosen_word, value_of_button);
     }
 
@@ -27,7 +28,7 @@ function letter_button_status_setter(choosen_word, value_of_button, buttons) {
         button++;
     }
 
-    if (is_correct(choosen_word, value_of_button.toLowerCase())) {
+    if (is_correct(choosen_word, value_of_button)) {
         buttons[button].style.background = "green";
     } else {
         buttons[button].style.background = "red";
@@ -80,26 +81,39 @@ function blank_word_init(choosen_word){
 }
 
 function blank_word_change(blank_word, choosen_word, letter) {
-    
-    let blank_word_serv = blank_word;
+
+    let blank_word_serv = blank_word.innerHTML;
+
+    blank_word_serv_split = blank_word_serv.split("");
+
+    blank_word_serv_split2 = [];
+
+    for (let z = 0; z < blank_word_serv_split.length; z++){
+        
+    }
 
     let letter_positions = [];
     
+    let index2 = 0;
     for (let index = 0; index < choosen_word.length; index++) {
-        if (choosen_word[index] == letter.toLowerCase()){
-            letter_positions += i;
+        if (choosen_word[index] == letter) {
+            letter_positions[index2] = index;
+            index2++;
         }
         
     }
-    
 
+    let blank_word_serv2 = "";
     let i = 0;
-
-    while (i < letter_positions.length) {
-        blank_word_serv[i*2] = letter;
+    while (i < blank_word_serv_split.length) {
+        if (letter_positions.includes(i)){
+            blank_word_serv2 += letter;
+        } else {
+            blank_word_serv2 += blank_word_serv_split[i];
+        }
         i++;
     }
 
-    return blank_word_serv;
+    return blank_word_serv2;
 
 }
