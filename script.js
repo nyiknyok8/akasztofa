@@ -1,24 +1,53 @@
 // Csapó Benedek
 
 var words = ["alma", "banán", "citrom", "dinnye", "körte"];
+var words_already_picked = [];
+
 var buttons = document.getElementsByName("letter_input");
 
 var choosen_word = word_picker(words).toUpperCase();
+words_already_picked.push(choosen_word);
+words.splice(words.indexOf(choosen_word), 1);
 
 var blank_word = document.getElementById("blank_text");
 
+var won_games_counter = 0;
+var lost_games_counter = 0;
+
+var won_games = document.getElementById("won_games");
+var lost_games = document.getElementById("lost_games");
+
+var won_games_counter_span = won_games.firstElementChild;
+var lost_games_counter_span = lost_games.firstElementChild;
+
+won_games_counter_span.innerHTML = won_games_counter;
+lost_games_counter_span.innerHTML = lost_games_counter;
+
 blank_word.innerHTML = blank_word_init(choosen_word);
 
-
+var gallows = document.getElementById("akasztofa");
+var gallows_counter = 0;
 
 function on_letter_push(value_of_button) {
+    
     letter_button_status_setter(choosen_word, value_of_button, buttons);
 
     if (is_correct(choosen_word, value_of_button)) {
         blank_word.innerHTML = blank_word_change(blank_word, choosen_word, value_of_button);
+
+    } else {
+        gallows_counter++;
+        gallows.style.backgroundImage = "url(img/" + gallows_counter + ".png);";
     }
 
+    
 }
+
+// won_games + lost_games számláló növelője.
+function calculation() {
+    
+}
+
 
 // a gomb színét és elérését állítja be
 function letter_button_status_setter(choosen_word, value_of_button, buttons) {
@@ -38,21 +67,26 @@ function letter_button_status_setter(choosen_word, value_of_button, buttons) {
     
 }
 
-// a "Feladom" gomb akciója
-function ending_game(buttons) {
+function reset() {
     for (let index = 0; index < buttons.length; index++) {
-        buttons[index].disabled = true;
-        
-
+        buttons[index].style.backgroundImage = "linear-gradient(-180deg, #FF7E31, #E62C03)";
+        buttons[index].disabled = false;
     }
-    
 }
 
 // az "Új játék" gomb akciója
-function starting_new_game(buttons) {
-    for (let index = 0; index < buttons.length; index++) {
-        buttons[index].disabled = false;
-    }
+function starting_new_game() {
+
+    reset();
+
+    won_games_counter = 0;
+    lost_games_counter = 0;
+
+    choosen_word = word_picker(words).toUpperCase();
+
+    blank_word.innerHTML = blank_word_init(choosen_word);
+
+    words = words.concat(words_already_picked);
 }
 
 // véletlenszerűen kiválaszt egy szót a listából
@@ -110,3 +144,11 @@ function blank_word_change(blank_word, choosen_word, letter) {
     return blank_word_serv_2;
 
 }
+
+/*
+HÁTRALÉVŐ FELADATOK
+
+- az akasztőfa képciklus befejezése
+- az új akasztófa kép beillesztése hiba esetén
+- a megnyert játszmák++, elvesztett játszmák++
+*/

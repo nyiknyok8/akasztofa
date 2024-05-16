@@ -12,8 +12,6 @@
         
         <div class="container">
             <div id="akasztofa" class="row text-center">
-                <div class="">
-                </div>
             </div>
         </div>
         <hr class="gradient">
@@ -77,6 +75,22 @@
                 </div>
         </div>
     </form>
+
+    <div class="m-5 row">
+        <div class="col-6 col-sm-12 col-md-12 col-lg-12">
+            <input id="new_game" type="button" value="ÚJ JÁTÉK" onclick="starting_new_game()">
+        </div>
+    </div>
+
+    <div class="m-5 row">
+        <div class="col-6 col-sm-6 col-md-6 col-lg-6 text-end">
+            <p id="won_games">Megnyert játszmák száma: <span></span></p>
+        </div>
+        <div class="col-6 col-sm-6 col-md-6 col-lg-6">
+            <p id="lost_games">Elvesztett játszmák száma: <span></span></p>
+        </div>
+    </div>
+    
     <script src="js/bootstrap.min.js"></script>
     <script src="script.js"></script>
 </body>
