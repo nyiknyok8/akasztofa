@@ -84,36 +84,29 @@ function blank_word_change(blank_word, choosen_word, letter) {
 
     let blank_word_serv = blank_word.innerHTML;
 
-    blank_word_serv_split = blank_word_serv.split("");
+    let blank_word_serv_splitted = blank_word_serv.split(' ');
 
-    blank_word_serv_split2 = [];
+    let indexes_of_current_correct_letter = [];
 
-    for (let z = 0; z < blank_word_serv_split.length; z++){
-        
-    }
-
-    let letter_positions = [];
-    
-    let index2 = 0;
     for (let index = 0; index < choosen_word.length; index++) {
         if (choosen_word[index] == letter) {
-            letter_positions[index2] = index;
-            index2++;
+            indexes_of_current_correct_letter.push(index);
         }
         
     }
 
-    let blank_word_serv2 = "";
-    let i = 0;
-    while (i < blank_word_serv_split.length) {
-        if (letter_positions.includes(i)){
-            blank_word_serv2 += letter;
-        } else {
-            blank_word_serv2 += blank_word_serv_split[i];
+    let blank_word_serv_2 = "";
+
+    for (let index2 = 0; index2 < blank_word_serv_splitted.length-1; index2++) {
+        if (indexes_of_current_correct_letter.includes(index2)){
+            blank_word_serv_2 += (letter + " ");
+        } else{
+            blank_word_serv_2 += (blank_word_serv_splitted[index2] + " ");
         }
-        i++;
+        
+        
     }
 
-    return blank_word_serv2;
+    return blank_word_serv_2;
 
 }
