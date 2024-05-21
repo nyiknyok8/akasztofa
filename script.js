@@ -5,9 +5,10 @@ var words_already_picked = [];
 
 var buttons = document.getElementsByName("letter_input");
 
-var choosen_word = word_picker(words).toUpperCase();
-words_already_picked.push(choosen_word);
-words.splice(words.indexOf(choosen_word), 1);
+var chosen_word;
+chosen_word = word_picker(words).toUpperCase();
+words_already_picked.push(chosen_word.toLowerCase());
+words.splice(words.indexOf(chosen_word.toLowerCase()), 1);
 
 var blank_word = document.getElementById("blank_text");
 
@@ -23,41 +24,62 @@ var lost_games_counter_span = lost_games.firstElementChild;
 won_games_counter_span.innerHTML = won_games_counter;
 lost_games_counter_span.innerHTML = lost_games_counter;
 
-blank_word.innerHTML = blank_word_init(choosen_word);
+blank_word.innerHTML = blank_word_init(chosen_word);
 
 var gallows = document.getElementById("akasztofa");
 var gallows_counter = 0;
 
+
+//console.log(gallows);
+
 function on_letter_push(value_of_button) {
     
-    letter_button_status_setter(choosen_word, value_of_button, buttons);
+    letter_button_status_setter(chosen_word, value_of_button, buttons);
 
-    if (is_correct(choosen_word, value_of_button)) {
-        blank_word.innerHTML = blank_word_change(blank_word, choosen_word, value_of_button);
-
+    if (is_correct(chosen_word, value_of_button)) {
+        blank_word.innerHTML = blank_word_change(blank_word, chosen_word, value_of_button);
+        if (!blank_word.innerHTML.includes("_")){
+            won_games_counter++;
+            round();
+        }
     } else {
-        gallows_counter++;
-        gallows.style.backgroundImage = "url(img/" + gallows_counter + ".png);";
+        if (gallows_counter > 4) {
+            gallows_counter = 0;
+            lost_games_counter++;
+            round();
+
+        } else {
+            gallows_counter++;
+        }
     }
 
     
 }
 
-// won_games + lost_games számláló növelője.
-function calculation() {
-    
+function round(){
+    for (let index = 0; index < buttons.length; index++) {
+        buttons[index].style.backgroundImage = "linear-gradient(-180deg, #FF7E31, #E62C03)";
+        buttons[index].disabled = false;
+    }
+    chosen_word = word_picker(words).toUpperCase();
+    words_already_picked.push(chosen_word.toLowerCase());
+    words.splice(words.indexOf(chosen_word.toLowerCase()), 1);
+    console.log(words);
+    console.log(words_already_picked);
+    won_games_counter_span.innerHTML = won_games_counter;
+    lost_games_counter_span.innerHTML = lost_games_counter;
+    blank_word.innerHTML = blank_word_init(chosen_word);
 }
 
-
 // a gomb színét és elérését állítja be
-function letter_button_status_setter(choosen_word, value_of_button, buttons) {
+function letter_button_status_setter(chosen_word, value_of_button, buttons) {
     
     let button = 0;
     while (buttons[button].value != value_of_button){
         button++;
     }
 
-    if (is_correct(choosen_word, value_of_button)) {
+    if (is_correct(chosen_word, value_of_button)) {
         buttons[button].style.background = "green";
     } else {
         buttons[button].style.background = "red";
@@ -72,6 +94,8 @@ function reset() {
         buttons[index].style.backgroundImage = "linear-gradient(-180deg, #FF7E31, #E62C03)";
         buttons[index].disabled = false;
     }
+    words = words.concat(words_already_picked);
+    words_already_picked = [];
 }
 
 // az "Új játék" gomb akciója
@@ -81,10 +105,12 @@ function starting_new_game() {
 
     won_games_counter = 0;
     lost_games_counter = 0;
+    gallows_counter = 0;
 
-    choosen_word = word_picker(words).toUpperCase();
 
-    blank_word.innerHTML = blank_word_init(choosen_word);
+    chosen_word = word_picker(words).toUpperCase();
+
+    blank_word.innerHTML = blank_word_init(chosen_word);
 
     words = words.concat(words_already_picked);
 }
@@ -103,10 +129,10 @@ function is_correct(word, letter) {
 }
 
 
-function blank_word_init(choosen_word){
+function blank_word_init(chosen_word){
     let blank_word = "";
 
-    for (let index = 0; index < choosen_word.length; index++) {
+    for (let index = 0; index < chosen_word.length; index++) {
         blank_word += "_ ";
         
     }
@@ -114,7 +140,7 @@ function blank_word_init(choosen_word){
     return blank_word;
 }
 
-function blank_word_change(blank_word, choosen_word, letter) {
+function blank_word_change(blank_word, chosen_word, letter) {
 
     let blank_word_serv = blank_word.innerHTML;
 
@@ -122,8 +148,8 @@ function blank_word_change(blank_word, choosen_word, letter) {
 
     let indexes_of_current_correct_letter = [];
 
-    for (let index = 0; index < choosen_word.length; index++) {
-        if (choosen_word[index] == letter) {
+    for (let index = 0; index < chosen_word.length; index++) {
+        if (chosen_word[index] == letter) {
             indexes_of_current_correct_letter.push(index);
         }
         
@@ -148,7 +174,5 @@ function blank_word_change(blank_word, choosen_word, letter) {
 /*
 HÁTRALÉVŐ FELADATOK
 
-- az akasztőfa képciklus befejezése
 - az új akasztófa kép beillesztése hiba esetén
-- a megnyert játszmák++, elvesztett játszmák++
 */
