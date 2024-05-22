@@ -30,7 +30,7 @@ var gallows = document.getElementById("akasztofa");
 var gallows_counter = 0;
 
 
-//console.log(gallows);
+console.log(gallows);
 
 function on_letter_push(value_of_button) {
     
@@ -50,8 +50,10 @@ function on_letter_push(value_of_button) {
 
         } else {
             gallows_counter++;
+            gallows.style.backgroundImage = "url(img/" + gallows_counter + ".png)";
         }
     }
+
 
     
 }
