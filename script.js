@@ -1,4 +1,6 @@
-// Csapó Benedek
+var modal = document.getElementById("myModal");
+var span = document.getElementsByClassName("close")[0];
+var info = document.getElementById("info");
 
 var words = ["alma", "banán", "citrom", "dinnye", "körte"];
 var words_already_picked = [];
@@ -29,21 +31,28 @@ blank_word.innerHTML = blank_word_init(chosen_word);
 var gallows = document.getElementById("akasztofa");
 var gallows_counter = 0;
 
-
-console.log(gallows);
-
 function on_letter_push(value_of_button) {
-    
+
+    if (words.length == 0) {
+        starting_new_game();
+    }
+
     letter_button_status_setter(chosen_word, value_of_button, buttons);
 
     if (is_correct(chosen_word, value_of_button)) {
         blank_word.innerHTML = blank_word_change(blank_word, chosen_word, value_of_button);
         if (!blank_word.innerHTML.includes("_")){
             won_games_counter++;
+            modal.style.display = "block";
+            info.innerHTML = "Nyertél!";
+            gallows_counter = 0;
             round();
         }
     } else {
-        if (gallows_counter > 4) {
+        if (gallows_counter > 5) {
+            gallows.style.backgroundImage = "url(img/" + gallows_counter + ".png)";
+            modal.style.display = "block";
+            info.innerHTML = "Vesztettél!";
             gallows_counter = 0;
             lost_games_counter++;
             round();
@@ -53,9 +62,6 @@ function on_letter_push(value_of_button) {
             gallows.style.backgroundImage = "url(img/" + gallows_counter + ".png)";
         }
     }
-
-
-    
 }
 
 function round(){
@@ -66,12 +72,12 @@ function round(){
     chosen_word = word_picker(words).toUpperCase();
     words_already_picked.push(chosen_word.toLowerCase());
     words.splice(words.indexOf(chosen_word.toLowerCase()), 1);
-    console.log(words);
-    console.log(words_already_picked);
     won_games_counter_span.innerHTML = won_games_counter;
     lost_games_counter_span.innerHTML = lost_games_counter;
     blank_word.innerHTML = blank_word_init(chosen_word);
+    gallows.style.backgroundImage = "url(img/" + gallows_counter + ".png)";
 }
+
 
 // a gomb színét és elérését állítja be
 function letter_button_status_setter(chosen_word, value_of_button, buttons) {
@@ -100,6 +106,8 @@ function reset() {
     words_already_picked = [];
 }
 
+
+
 // az "Új játék" gomb akciója
 function starting_new_game() {
 
@@ -109,12 +117,16 @@ function starting_new_game() {
     lost_games_counter = 0;
     gallows_counter = 0;
 
+    won_games_counter_span.innerHTML = won_games_counter;
+    lost_games_counter_span.innerHTML = lost_games_counter;
 
     chosen_word = word_picker(words).toUpperCase();
 
     blank_word.innerHTML = blank_word_init(chosen_word);
 
     words = words.concat(words_already_picked);
+
+
 }
 
 // véletlenszerűen kiválaszt egy szót a listából
@@ -173,8 +185,7 @@ function blank_word_change(blank_word, chosen_word, letter) {
 
 }
 
-/*
-HÁTRALÉVŐ FELADATOK
+span.onclick = function() {
+    modal.style.display = "none";
+}
 
-- az új akasztófa kép beillesztése hiba esetén
-*/
