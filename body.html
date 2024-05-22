@@ -6,29 +6,30 @@
     <title>Akasztófa</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jacquard+24+Charted&family=Satisfy&display=swap" rel="stylesheet">
 </head>
 <body>
     <form action="">
         
         <div class="container">
-            <div id="akasztofa" class="row text-center img-fluid">
+            <div id="akasztofa" class="row text-center tile img-fluid">
                 
             </div>
         </div>
-        <hr class="gradient">
         <div class="container">
             
             <div class="row">
                 <div class="text-center">
-                    <p><span class="feladat tile" id="blank_text"></span></p>
+                    <p><span class="feladat" id="blank_text"></span></p>
                 </div>
             </div>
         </div>
-        <hr class="gradient">
         <div class="container">
             
-                <div class="row">
-                    <div class="flex-parent jc-center">
+                <div class="row table-responsive">
+                    <div class="flex-parent jc-center col-6 col-sm-12 col-md-12 col-lg-12">
                         <table>
                         <tr>
                             <td><input type="button" class="buttons" name="letter_input" value="A" onclick="on_letter_push('A')"></td>
@@ -79,7 +80,7 @@
 
     <div class="m-5 row">
         <div class="col-6 col-sm-12 col-md-12 col-lg-12">
-            <input id="new_game" type="button" value="ÚJ JÁTÉK" onclick="starting_new_game()">
+            <input id="new_game" type="button" class="buttons" value="ÚJ JÁTÉK" onclick="starting_new_game()">
         </div>
     </div>
 
